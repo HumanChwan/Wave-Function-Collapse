@@ -2,7 +2,7 @@ const body = document.body;
 const grid = document.getElementById("grid");
 
 const GRID_SIZE = 800;
-const GRID_DIMENSION = 40;
+const GRID_DIMENSION = 32;
 const CRITICAL_ATTR = 3;
 const DIMENSION = GRID_SIZE / GRID_DIMENSION;
 let DEFAULT_OPTIONS = [];
