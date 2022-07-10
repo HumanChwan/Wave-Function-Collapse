@@ -87,8 +87,11 @@ class Block {
         if (this.options.length === 0) {
             throw "Zero Hogaya";
         }
-
-        grid.removeChild(this.image);
+        try {
+            grid.removeChild(this.image);
+        } catch (e) {
+            console.log("wow");
+        }
         this.rendered = false;
         this.collapsed = true;
 
@@ -220,24 +223,29 @@ const main = async () => {
             randomBlock.setImage();
         } catch (e) {
             console.error(e);
-            return false;
+            return { success: false, Coord: [] };
         }
-        return true;
+        return { success: true, Coord: [randomBlock.i, randomBlock.j] };
     };
 
-    while (true) {
-        let propagations = 0;
+    let propagations = 0;
+    gridRender();
+    const solve = async () => {
+        if (propagations === GRID_DIMENSION * GRID_DIMENSION) return true;
+        const data = propagation();
+        if (!data.success) return false;
         gridRender();
-        while (propagations++ < GRID_DIMENSION * GRID_DIMENSION) {
-            const valid = propagation();
-            if (!valid) break;
-            gridRender();
-            await new Promise((r) => setTimeout(r, 1));
-        }
-        if (propagations < GRID_DIMENSION * GRID_DIMENSION) {
-            intialize(blocks);
-        } else break;
-    }
+        await new Promise((r) => setTimeout(r, 20));
+        propagations++;
+        const result = await solve();
+        if (result) return true;
+
+        propagations--;
+        blocks[data.Coord[0] * GRID_DIMENSION + data.Coord[1]].intialize();
+        return await solve();
+    };
+
+    solve();
 };
 
 main();
