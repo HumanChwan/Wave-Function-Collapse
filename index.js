@@ -2,7 +2,7 @@ const body = document.body;
 const grid = document.getElementById("grid");
 
 const GRID_SIZE = 800;
-const GRID_DIMENSION = 25;
+const GRID_DIMENSION = 40;
 const CRITICAL_ATTR = 3;
 const DIMENSION = GRID_SIZE / GRID_DIMENSION;
 let DEFAULT_OPTIONS = [];
@@ -66,13 +66,16 @@ class Block {
     }
 
     intialize = () => {
+        grid.removeChild(this.image);
+
+        this.rendered = false;
         this.image = UNDEFINED_BLOCK.formImage(this.i, this.j);
+
         this.collapsed = false;
         this.selectedImageIdx = -1;
         this.options = new Array(DEFAULT_OPTIONS.length)
             .fill(0)
             .map((_, idx) => idx);
-        this.rendered = false;
     };
 
     render = () => {
@@ -156,12 +159,6 @@ const isValid = (i, j) => {
 };
 
 const main = async () => {
-    const blocks = new Array(GRID_DIMENSION * GRID_DIMENSION)
-        .fill(null)
-        .map(
-            (_, j) =>
-                new Block(Math.floor(j / GRID_DIMENSION), j % GRID_DIMENSION)
-        );
     const { images: BASE_IMAGE_OPTIONS } = await fetchImageDataJSON();
     for (const image of BASE_IMAGE_OPTIONS) {
         for (const rotation of image.rotations) {
@@ -174,6 +171,12 @@ const main = async () => {
             );
         }
     }
+    const blocks = new Array(GRID_DIMENSION * GRID_DIMENSION)
+        .fill(null)
+        .map(
+            (_, j) =>
+                new Block(Math.floor(j / GRID_DIMENSION), j % GRID_DIMENSION)
+        );
     ImageOption.analyze();
     await preloadImages();
 
@@ -186,28 +189,49 @@ const main = async () => {
     const propagation = () => {
         for (const block of blocks) {
             if (block.collapsed) continue;
-            const valid_count = new Array(DEFAULT_OPTIONS.length).fill(0);
+            const valid_count = new Array(4)
+                .fill(null)
+                .map((_) => new Array(DEFAULT_OPTIONS.length).fill(false));
             for (let d = 0; d < 4; ++d) {
                 const ni = block.i + directions[d][0],
                     nj = block.j + directions[d][1];
                 if (
-                    isValid(ni, nj) &&
-                    blocks[ni * GRID_DIMENSION + nj].collapsed
+                    isValid(ni, nj)
+                    // blocks[ni * GRID_DIMENSION + nj].collapsed
                 ) {
-                    DEFAULT_OPTIONS[
-                        blocks[ni * GRID_DIMENSION + nj].selectedImageIdx
-                    ].options[(d + 2) % 4].forEach((x) => {
-                        valid_count[x]++;
-                    });
+                    if (blocks[ni * GRID_DIMENSION + nj].collapsed)
+                        DEFAULT_OPTIONS[
+                            blocks[ni * GRID_DIMENSION + nj].selectedImageIdx
+                        ].options[(d + 2) % 4].forEach((x) => {
+                            valid_count[d][x] = true;
+                        });
+                    else {
+                        blocks[ni * GRID_DIMENSION + nj].options.forEach(
+                            (y) => {
+                                DEFAULT_OPTIONS[y].options[(d + 2) % 4].forEach(
+                                    (x) => {
+                                        valid_count[d][x] = true;
+                                    }
+                                );
+                            }
+                        );
+                    }
                 } else {
                     for (let x = 0; x < DEFAULT_OPTIONS.length; ++x)
-                        valid_count[x]++;
+                        valid_count[d][x]++;
                 }
             }
             block.options = [];
-            valid_count.forEach((x, idx) => {
-                if (x === 4) block.options.push(idx);
-            });
+            for (let idx = 0; idx < DEFAULT_OPTIONS.length; ++idx) {
+                if (
+                    valid_count[0][idx] &&
+                    valid_count[1][idx] &&
+                    valid_count[2][idx] &&
+                    valid_count[3][idx]
+                )
+                    block.options.push(idx);
+            }
+            if (block.options.length === 0) console.log(valid_count);
         }
 
         let sampleBlocks = blocks.filter((block) => !block.collapsed);
@@ -223,6 +247,7 @@ const main = async () => {
             randomBlock.setImage();
         } catch (e) {
             console.error(e);
+            console.log(randomBlock);
             return { success: false, Coord: [] };
         }
         return { success: true, Coord: [randomBlock.i, randomBlock.j] };
@@ -232,16 +257,19 @@ const main = async () => {
     gridRender();
     const solve = async () => {
         if (propagations === GRID_DIMENSION * GRID_DIMENSION) return true;
+        Math.seedrandom();
         const data = propagation();
         if (!data.success) return false;
         gridRender();
-        await new Promise((r) => setTimeout(r, 20));
+
+        await new Promise((r) => setTimeout(r, 1));
         propagations++;
         const result = await solve();
         if (result) return true;
 
         propagations--;
         blocks[data.Coord[0] * GRID_DIMENSION + data.Coord[1]].intialize();
+        gridRender();
         return await solve();
     };
 
