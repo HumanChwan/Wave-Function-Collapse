@@ -1,0 +1,74 @@
+{
+    "images": [
+        {
+            "image_src": "./data/Circuit/bridge.png",
+			"rotations": [0, 1],
+			"socket_config": [10, 20, 10, 20]
+		},
+		{
+            "image_src": "./data/Circuit/component.png",
+			"rotations": [0],
+			"socket_config": [333, 333, 333, 333]
+		},
+		{
+            "image_src": "./data/Circuit/connection.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [10, 3, 333, 3]
+		},
+		{
+            "image_src": "./data/Circuit/corner.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [0, 0, 300, 3]
+		},
+		{
+            "image_src": "./data/Circuit/dskew.png",
+			"rotations": [0, 1],
+			"socket_config": [10, 10, 10, 10]
+		},
+		{
+            "image_src": "./data/Circuit/skew.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [10, 10, 0, 0]
+		},
+		{
+            "image_src": "./data/Circuit/substrate.png",
+			"rotations": [0],
+			"socket_config": [0, 0, 0, 0]
+		},
+		{
+            "image_src": "./data/Circuit/t.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [0, 10, 10, 10]
+		},
+		{
+            "image_src": "./data/Circuit/transition.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [20, 0, 10, 0]
+		},
+		{
+			"image_src": "./data/Circuit/turn.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [10, 10, 0, 0]
+		},
+		{
+			"image_src": "./data/Circuit/track.png",
+			"rotations": [0, 1],
+			"socket_config": [10, 0, 10, 0]
+		},
+		{
+			"image_src": "./data/Circuit/viad.png",
+			"rotations": [0, 1],
+			"socket_config": [0, 10, 0, 10]
+		},
+		{
+			"image_src": "./data/Circuit/vias.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [10, 0, 0, 0]
+		},
+		{
+			"image_src": "./data/Circuit/wire.png",
+			"rotations": [0, 1],
+			"socket_config": [0, 20, 0, 20]
+		}
+	]
+}

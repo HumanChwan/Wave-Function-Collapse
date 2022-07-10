@@ -1,0 +1,19 @@
+{
+	"images": [
+		{
+			"image_src": "./data/Pipe/pipe.svg",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [0, 1, 1, 1]
+		},
+		{
+			"image_src": "./data/Pipe/blank.svg",
+			"rotations": [0],
+			"socket_config": [0, 0, 0, 0]
+		},
+		{
+			"image_src": "./data/Pipe/quad.svg",
+			"rotations": [0],
+			"socket_config": [1, 1, 1, 1]
+		}
+	]
+}
