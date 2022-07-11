@@ -1,11 +1,12 @@
 const body = document.body;
 const grid = document.getElementById("grid");
 
-const GRID_SIZE = 800;
-const GRID_DIMENSION = 32;
-const CRITICAL_ATTR = 3;
+const GRID_SIZE = 720;
+const GRID_DIMENSION = 30;
+let CRITICAL_ATTR = 3;
 const DIMENSION = GRID_SIZE / GRID_DIMENSION;
 let DEFAULT_OPTIONS = [];
+let PRNG = new Math.seedrandom(Math.random());
 
 class ImageOption {
     static get DIMENSION() {
@@ -65,14 +66,15 @@ class Block {
         this.rendered = false;
     }
 
-    intialize = () => {
-        grid.removeChild(this.image);
+    intialize = (power = "strong") => {
+        if (power === "strong") {
+            grid.removeChild(this.image);
+            this.rendered = false;
+            this.image = UNDEFINED_BLOCK.formImage(this.i, this.j);
 
-        this.rendered = false;
-        this.image = UNDEFINED_BLOCK.formImage(this.i, this.j);
-
-        this.collapsed = false;
-        this.selectedImageIdx = -1;
+            this.collapsed = false;
+            this.selectedImageIdx = -1;
+        }
         this.options = new Array(DEFAULT_OPTIONS.length)
             .fill(0)
             .map((_, idx) => idx);
@@ -85,9 +87,10 @@ class Block {
 
     setImage = () => {
         this.selectedImageIdx =
-            this.options[Math.floor(Math.random() * this.options.length)];
+            this.options[Math.floor(PRNG() * this.options.length)];
 
         if (this.options.length === 0) {
+            this.selectedImageIdx = -1;
             throw "Zero Hogaya";
         }
         try {
@@ -105,14 +108,14 @@ class Block {
     };
 }
 
-const intialize = (blocks) => {
+const intialize = (blocks, power) => {
     for (const block of blocks) {
-        block.intialize();
+        block.intialize(power);
     }
 };
 
-const fetchImageDataJSON = async () => {
-    const response = await fetch("./data/Circuit/image_data.json");
+const fetchImageDataJSON = async (sample) => {
+    const response = await fetch(`./data/${sample}/image_data.json`);
     const data = await response.json();
     return data;
 };
@@ -159,7 +162,13 @@ const isValid = (i, j) => {
 };
 
 const main = async () => {
-    const { images: BASE_IMAGE_OPTIONS } = await fetchImageDataJSON();
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+    });
+
+    const JSONdata = await fetchImageDataJSON(params.sample);
+    const BASE_IMAGE_OPTIONS = JSONdata.images;
+    CRITICAL_ATTR = JSONdata.critical_attributes;
     for (const image of BASE_IMAGE_OPTIONS) {
         for (const rotation of image.rotations) {
             DEFAULT_OPTIONS.push(
@@ -180,10 +189,11 @@ const main = async () => {
     ImageOption.analyze();
     await preloadImages();
 
-    const gridRender = () => {
+    const gridRender = async () => {
         for (const block of blocks) {
             block.render();
         }
+        await new Promise((r) => setTimeout(r, 1));
     };
 
     const propagation = () => {
@@ -231,7 +241,7 @@ const main = async () => {
                 )
                     block.options.push(idx);
             }
-            if (block.options.length === 0) console.log(valid_count);
+            // if (block.options.length === 0) console.log(valid_count);
         }
 
         let sampleBlocks = blocks.filter((block) => !block.collapsed);
@@ -241,7 +251,7 @@ const main = async () => {
         );
 
         const randomBlock =
-            sampleBlocks[Math.floor(Math.random() * sampleBlocks.length)];
+            sampleBlocks[Math.floor(PRNG() * sampleBlocks.length)];
 
         try {
             randomBlock.setImage();
@@ -254,26 +264,32 @@ const main = async () => {
     };
 
     let propagations = 0;
-    gridRender();
+    let solved = false;
     const solve = async () => {
         if (propagations === GRID_DIMENSION * GRID_DIMENSION) return true;
-        Math.seedrandom();
+
         const data = propagation();
         if (!data.success) return false;
-        gridRender();
+        await gridRender();
 
-        await new Promise((r) => setTimeout(r, 1));
         propagations++;
         const result = await solve();
         if (result) return true;
 
         propagations--;
         blocks[data.Coord[0] * GRID_DIMENSION + data.Coord[1]].intialize();
-        gridRender();
+        intialize(blocks, "easy");
+        PRNG = new Math.seedrandom(`${PRNG()}`);
+
+        await gridRender();
         return await solve();
     };
 
-    solve();
+    while (!solved) {
+        gridRender();
+        solved = await solve();
+        if (!solved) intialize(blocks, "strong");
+    }
 };
 
 main();

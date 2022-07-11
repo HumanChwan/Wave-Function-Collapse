@@ -1,38 +1,53 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Wave Function collapse</title>
-		<style>
-			:root {
-				--D: 800px;
-			}
-			*, *::after, *::before {
-				/* box-sizing: border-box; */
-				margin: 0;
-				padding: 0;
-			}
-			html, body {
-				height: 100%;
-			}
-			body {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-			}
-			#grid {
-				border: 2px solid black;
-				position: relative;
-				width: var(--D);
-				height: var(--D);
-			}
-			.image {
-				position: absolute;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="grid"></div>
-		<script src=//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.3.10/seedrandom.min.js></script>
-		<script src="index.js"></script>
-	</body>
+    <head>
+        <title>Wave Function Collapse</title>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+            }
+            html {
+                background-color: powderblue;
+                height: 100%;
+            }
+            body {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+            }
+            h1 {
+                text-align: center;
+                color: steelblue;
+            }
+            .choice-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                gap: 1rem;
+            }
+            a.button {
+                text-decoration: none;
+            }
+            .button {
+                border: 1px solid steelblue;
+                padding: 0.5rem 1rem;
+                background-color: powderblue;
+                color: steelblue;
+            }
+            .button:hover {
+                cursor: pointer;
+                transform: scale(1.125);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Wave Function Collapse</h1>
+        <div class="choice-box"></div>
+        <script src="initial.js"></script>
+    </body>
 </html>

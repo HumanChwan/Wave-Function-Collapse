@@ -70,5 +70,6 @@
 			"rotations": [0, 1],
 			"socket_config": [0, 20, 0, 20]
 		}
-	]
+	],
+	"critical_attributes": 3
 }

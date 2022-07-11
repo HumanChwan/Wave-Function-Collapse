@@ -1,0 +1,5 @@
+// {
+// 	"image_src": "./data/Pipe/quad.svg",
+// 	"rotations": [0],
+// 	"socket_config": [1, 1, 1, 1]
+// }

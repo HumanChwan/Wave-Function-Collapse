@@ -1,0 +1,71 @@
+{
+	"images": [
+        {
+            "image_src": "./data/2DWorld/cliff.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [0, 10, 0, 10]
+		},
+		{
+            "image_src": "./data/2DWorld/cliffcorner.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [10, 100, 0, 0]
+		},
+		{
+            "image_src": "./data/2DWorld/cliffturn.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [10, 10, 0, 0]
+		},
+		{
+            "image_src": "./data/2DWorld/grass.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [0, 0, 0, 0]
+		},
+		{
+            "image_src": "./data/2DWorld/grasscorner.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [220, 22, 222, 222]
+		},
+		{
+            "image_src": "./data/2DWorld/road.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [222, 220, 0, 220]
+		},
+		{
+			"image_src": "./data/2DWorld/roadturn.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [22, 220, 0, 0]
+		},
+		{
+			"image_src": "./data/2DWorld/water_a.png",
+			"rotations": [0],
+			"socket_config": [333, 333, 333, 333]
+		},
+		{
+			"image_src": "./data/2DWorld/water_b.png",
+			"rotations": [0],
+			"socket_config": [333, 333, 333, 333]
+		},
+		{
+			"image_src": "./data/2DWorld/water_c.png",
+			"rotations": [0],
+			"socket_config": [333, 333, 333, 333]
+		},
+		{
+			"image_src": "./data/2DWorld/waterturn.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [333, 333, 113, 300]
+		},
+		{
+			"image_src": "./data/2DWorld/waterside.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [333, 310, 0, 310]
+		},
+		{
+			"image_src": "./data/2DWorld/watercorner.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [113, 300, 0, 0]
+		}
+    ],
+	"critical_attributes": 3
+}
+

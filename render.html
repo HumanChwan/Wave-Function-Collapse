@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Function collapse</title>
+        <style>
+            :root {
+                --D: 720px;
+            }
+            *,
+            *::after,
+            *::before {
+                /* box-sizing: border-box; */
+                margin: 0;
+                padding: 0;
+            }
+            html,
+            body {
+                height: 100%;
+            }
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                background-color: powderblue;
+            }
+            #grid {
+                border: 2px solid black;
+                position: relative;
+                width: var(--D);
+                height: var(--D);
+            }
+            .image {
+                position: absolute;
+            }
+            a {
+                top: 4rem;
+                left: 30rem;
+                position: absolute;
+                text-decoration: none;
+
+                font-weight: bold;
+
+                color: steelblue;
+            }
+        </style>
+    </head>
+    <body>
+        <a href="/">&lt; back</a>
+        <div id="grid"></div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+{
+	"images": [
+		{
+			"image_src": "./data/Tunnel/corner.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [1, 1, 0, 0]
+		},
+		{
+			"image_src": "./data/Tunnel/cross.png",
+			"rotations": [0, 1],
+			"socket_config": [1, 1, 1, 1]
+		},
+		{
+			"image_src": "./data/Tunnel/t.png",
+			"rotations": [0, 1, 2, 3],
+			"socket_config": [0, 1, 1, 1]
+		},
+		{
+			"image_src": "./data/Tunnel/line.png",
+			"rotations": [0, 1],
+			"socket_config": [0, 1, 0, 1]
+		}
+	],
+	"critical_attributes": 1
+}

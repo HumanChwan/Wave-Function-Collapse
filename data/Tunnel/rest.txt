@@ -1,0 +1,6 @@
+
+{
+	"image_src": "./data/Tunnel/empty.png",
+	"rotations": [0],
+	"socket_config": [0, 0, 0, 0]
+},
